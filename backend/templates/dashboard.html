@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intrusion Detection Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Intrusion Detection System (IDS)</h1>
+        <p>Enter the following network connection details to analyze whether it’s normal or an attack.</p>
+
+        <form id="predictionForm">
+            <!-- Input fields for all 10 features -->
+            <div class="form-grid">
+                <label>Protocol Type:</label>
+                <input type="text" id="protocol_type" placeholder="e.g., tcp, udp, icmp" required />
+
+                <label>Flag:</label>
+                <input type="text" id="flag" placeholder="e.g., SF, REJ, RSTO" required />
+
+                <label>Destination Port:</label>
+                <input type="number" id="destination_port" placeholder="e.g., 80" required />
+
+                <label>Flow Duration:</label>
+                <input type="number" id="flow_duration" placeholder="in milliseconds" required />
+
+                <label>Total Forward Packets:</label>
+                <input type="number" id="total_forward_packets" required />
+
+                <label>Total Backward Packets:</label>
+                <input type="number" id="total_backward_packets" required />
+
+                <label>Average Packet Size:</label>
+                <input type="number" id="average_packet_size" required />
+
+                <label>Flow Bytes per Second:</label>
+                <input type="number" id="flow_bytes_per_s" required />
+
+                <label>Forward IAT Mean:</label>
+                <input type="number" id="fwd_iat_mean" required />
+
+                <label>Backward IAT Mean:</label>
+                <input type="number" id="bwd_iat_mean" required />
+            </div>
+
+            <button type="submit">🔍 Analyze Traffic</button>
+        </form>
+
+        <div id="result" class="result-box">
+            <h2>Prediction Result</h2>
+            <p><strong>Status:</strong> <span id="predictionOutput">---</span></p>
+            <p><strong>Confidence:</strong> <span id="confidenceOutput">---</span>%</p>
+        </div>
+    </div>
+
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

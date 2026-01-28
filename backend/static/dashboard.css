@@ -1,0 +1,117 @@
+/* dashboard.css */
+
+/* Overall page styling */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0a192f;
+    color: #e6f1ff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* Main container */
+.container {
+    background-color: #112240;
+    margin-top: 40px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    width: 90%;
+    max-width: 800px;
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    color: #64ffda;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    font-size: 15px;
+    color: #a8b2d1;
+}
+
+/* Grid layout for form */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 20px;
+    margin-top: 20px;
+}
+
+label {
+    font-weight: 500;
+    color: #ccd6f6;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #233554;
+    border-radius: 8px;
+    background-color: #0a192f;
+    color: #e6f1ff;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #64ffda;
+}
+
+/* Button styling */
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #64ffda;
+    color: #0a192f;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #52cca9;
+    transform: scale(1.03);
+}
+
+/* Result box */
+.result-box {
+    display: none;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    background-color: #233554;
+    border: 1px solid #233554;
+}
+
+.result-box.normal {
+    border-color: #64ffda;
+    background-color: rgba(100, 255, 218, 0.1);
+}
+
+.result-box.attack {
+    border-color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
+}
+
+.result-box h2 {
+    margin-bottom: 10px;
+    color: #64ffda;
+}
+
+.result-box p {
+    font-size: 18px;
+    margin: 5px 0;
+}

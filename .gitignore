@@ -1,0 +1,15 @@
+# Large datasets
+Dataset/
+Monday-WorkingHours.pcap_ISCX.csv
+
+
+# Trained models
+model/*.pkl
+model/*.joblib
+
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
