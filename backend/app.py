@@ -5,6 +5,8 @@ import pandas as pd
 import os,sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.feature_list import FEATURE_LIST
+from backend.signature import check_signature
+
 
 # Initialize Flask app
 app = Flask(__name__, template_folder="templates", static_folder="static")

@@ -1,0 +1,121 @@
+IDS_Project
+
+data flow
+User Input / Upload
+        ↓
+Frontend (Dashboard)
+        ↓
+Backend Preprocessing
+        ↓
+Isolation Forest Model
+        ↓
+Prediction + Confidence Score
+        ↓
+Frontend Display (Status, Confidence, Alerts)
+
+
+Concept
+Our model learns the behavior of normal network traffic patterns from the CICIDS dataset using an unsupervised anomaly detection algorithm.
+When a new network record is added — even if it has never been seen before — the model analyzes its similarity to known normal patterns.
+It outputs whether it’s likely an attack or normal, along with a confidence percentage indicating how certain the prediction is
+
+
+You’re building a Intrusion Detection System (IDS) using a hybrid model trained on both NSL-KDD and CICIDS-2017 datasets.
+
+The model uses a combination of signature-based and anomaly-based detection (Isolation Forest for anomaly detection).
+
+The backend is powered by Flask, and the frontend is a dashboard (HTML, CSS, JS) for user input and displaying predictions.
+
+
+📘 Detailed Project Description
+
+In today’s digital world, organizations rely heavily on computer networks to share and access data. However, these networks are constantly threatened by cyber-attacks such as port scans, denial of service (DoS), brute force, and other malicious intrusions. Detecting these attacks in real time is critical to maintaining data integrity, availability, and security.
+To address this issue, our project implements a Network-based Intrusion Detection and Prevention System (NIDPS) that uses Machine Learning, specifically the Isolation Forest algorithm, to automatically detect and prevent suspicious network activities.
+
+🧩 1. Purpose of the Project
+
+The main goal of this project is to monitor network traffic, identify malicious patterns, and prevent possible intrusions using intelligent anomaly detection techniques.
+Unlike traditional signature-based IDS systems (which detect only known attacks), our approach uses an unsupervised learning model that can detect unknown or zero-day attacks by identifying abnormal behaviors in network data.
+
+⚙️ 2. Working Process
+
+The system follows these main stages:
+
+a) Data Collection
+
+We used the CICIDS2017 dataset, a widely recognized cybersecurity dataset that simulates real-world network traffic including both normal and malicious activities.
+Specifically, we used the file “Friday Working Hours – Afternoon – PortScan”, which contains network flow records with around 286,467 rows and multiple features describing each connection.
+
+b) Feature Selection and Preprocessing
+
+From the dataset, we selected 10 most relevant features that influence intrusion detection, such as:
+1.	protocol_type (TCP, UDP, ICMP)
+2.	flag (connection status)
+3.	destination_port
+4.	flow_duration
+5.	total_forward_packets
+6.	total_backward_packets
+7.	total_length_forward_packets
+8.	total_length_backward_packets
+9.	flow_bytes_per_second
+10.	flow_packets_per_second
+
+c) Model Training – Isolation Forest
+
+The Isolation Forest algorithm is used to train the model in an unsupervised way, meaning it does not require labeled attack data.
+It works by:
+
+Randomly selecting a feature and split value to isolate data points.
+Anomalies (like port scanning behavior) are isolated faster than normal traffic since their characteristics differ from typical network patterns.
+Thus, the model learns to separate normal and abnormal network flows automatically.
+
+d) Detection Phase
+
+When new or unseen network data is tested:
+The model predicts each record as:
+1 → Normal Traffic
+-1 → Anomaly (Probing/Attack)
+Detected anomalies correspond to probing attempts, meaning someone is trying to scan or identify open ports.
+
+Q. Why Isolation Forest for Probing Detection
+
+We chose Isolation Forest because it is:
+⦁	Unsupervised: detects unknown scanning behavior without labeled data.
+⦁	Efficient: handles large, high-dimensional datasets like CICIDS2017 quickly.
+⦁	Accurate for anomalies: isolates rare, abnormal behaviors (e.g., high packet bursts, fast port sweeps).
+⦁	Lightweight: suitable for real-time detection without heavy computational cost.
+⦁	By focusing on the probing stage, Isolation Forest can identify attackers before they perform actual intrusions — making it a proactive defense system.
+
+
+📊 4. Evaluation and Results
+
+The model was evaluated on the PortScan dataset using metrics such as:
+Accuracy
+Precision
+Recall
+F1-score
+Results showed high accuracy in distinguishing normal vs. probing (port scan) traffic, confirming that the Isolation Forest can effectively detect reconnaissance activities.
+
+
+
+5. Tools and Technologies
+
+Category:-  Tools / Libraries
+Programming Language:-	Python
+Libraries:-	Pandas, NumPy, Scikit-learn, Joblib
+Dataset:- CICIDS2017 (Friday Working Hours PortScan)
+Algorithm:-	Isolation Forest
+IDE:- VS Code 
+Output:- Anomaly detection results (1 = Normal, -1 = Attack)
+
+6. Outcome
+
+The system successfully detects probing attacks in network traffic and can help network administrators act before a real attack occurs.
+It provides a base model for proactive intrusion prevention, which can later be integrated with live monitoring and automated blocking mechanisms.
+
+7. Future Enhancements
+
+⦁	Implement real-time packet capture to monitor live traffic.
+⦁	Add automated prevention to block scanning IPs dynamically.
+⦁	Combine Isolation Forest with supervised classifiers (hybrid approach).
+⦁	Develop a web-based dashboard for visual intrusion analytics.

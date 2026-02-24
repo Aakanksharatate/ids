@@ -1,23 +1,12 @@
-# backend/predict.py
-
 import pandas as pd
 import numpy as np
-import joblib
-import os, sys
 
+import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.feature_list import FEATURE_LIST
+from backend.app import encoders, scaler, model
+from backend.signature import check_signature
 
-# ---------------------------------------------------------
-# Load trained artifacts ONLY
-# ---------------------------------------------------------
-MODEL_FILE   = "model/isolation_forest.pkl"
-SCALER_FILE  = "model/scaler.pkl"
-ENCODER_FILE = "model/encoders.pkl"
-
-model    = joblib.load(MODEL_FILE)
-scaler   = joblib.load(SCALER_FILE)
-encoders = joblib.load(ENCODER_FILE)
 
 def predict_intrusion(input_data):
     try:
@@ -25,6 +14,18 @@ def predict_intrusion(input_data):
         missing = [f for f in FEATURE_LIST if f not in input_data]
         if missing:
             return {"error": f"Missing features: {missing}"}
+
+        # ---------------- SIGNATURE-BASED DETECTION ----------------
+        is_attack, reason = check_signature(input_data)
+        if is_attack:
+            return {
+                "prediction": "Attack",
+                "confidence": 90.0,
+                "method": "Signature-Based",
+                "reason": reason
+            }
+        
+        # ------------------------------------------------------------
 
         # 1. Create DataFrame in correct order
         df = pd.DataFrame(
@@ -42,7 +43,7 @@ def predict_intrusion(input_data):
             columns=FEATURE_LIST
         )
 
-        # 4. Predict
+        # 4. ML Prediction (Anomaly-based)
         pred  = model.predict(df_scaled)[0]
         score = model.decision_function(df_scaled)[0]
 
@@ -51,27 +52,9 @@ def predict_intrusion(input_data):
 
         return {
             "prediction": label,
-            "confidence": confidence
+            "confidence": confidence,
+            "method": "Anomaly-Based (ML)"
         }
 
     except Exception as e:
         return {"error": str(e)}
-
-# ---------------------------------------------------------
-# Standalone test
-# ---------------------------------------------------------
-if __name__ == "__main__":
-    sample_input = {
-        "protocol_type": 1,
-        "flag": 2,
-        "destination_port": 80,
-        "flow_duration": 500,
-        "total_forward_packets": 10,
-        "total_backward_packets": 8,
-        "average_packet_size": 250,
-        "flow_bytes_per_s": 1500,
-        "fwd_iat_mean": 200,
-        "bwd_iat_mean": 180
-    }
-
-    print(predict_intrusion(sample_input))
